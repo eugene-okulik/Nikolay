@@ -11,10 +11,10 @@ print(my_dict['tuple'][-1])
 
 my_dict['list'].append('Hello')
 print(my_dict['list'])
-my_dict['list'].pop(2)
+my_dict['list'].pop(1)
 print(my_dict['list'])
 
-my_dict['dict']['i am a tuple'] = 'yes'
+my_dict['dict'][('i am a tuple',)] = 'yes'
 print(my_dict['dict'])
 my_dict['dict'].pop('name')
 print(my_dict['dict'])
