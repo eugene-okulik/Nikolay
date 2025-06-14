@@ -8,7 +8,3 @@ for num in nums:
         print('Buzz')
     else:
         print(num)
-
-
-
-

@@ -10,5 +10,4 @@ for word in words:
     elif '.' in word:
         print(word.replace('.', ' ing.'))
     else:
-        print(word, ('ing'))
-
+        print(word, 'ing')
