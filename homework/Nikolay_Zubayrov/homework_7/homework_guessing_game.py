@@ -10,7 +10,3 @@ while True:
         break
 
 print('Досвидания!')
-
-
-
-
