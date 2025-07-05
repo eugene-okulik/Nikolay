@@ -10,6 +10,7 @@ else:
     total = salary + 0
 print(f'{salary},  {bonus} - ${total}')
 
+
 # задание 2
 def fib_generator():
     a, b = 0, 1
