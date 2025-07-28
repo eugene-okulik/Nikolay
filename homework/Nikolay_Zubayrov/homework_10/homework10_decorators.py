@@ -38,19 +38,19 @@ number2 = int(input('enter second number: '))
 
 
 def calculator(func):
-    def wrapper(first, second):
+    def wrapper(first, second, operation):
         if first < 0 or second < 0:
-            return first * second
+            operation = '*'
         elif first == second:
-            return first + second
+            operation = '+'
         elif first > second:
-            return first - second
+            operation = '-'
         elif second > first:
-            return first / second
+            operation = '/'
         else:
             print('что-то не так')
 
-        func(first, second)
+        return func(first, second, operation)
 
     return wrapper
 
