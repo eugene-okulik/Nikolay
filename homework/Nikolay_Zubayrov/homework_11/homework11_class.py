@@ -2,101 +2,45 @@ class Book:
     page_material = 'бумага'
     text = True
 
-    def __init__(self, reserved):
-        self.reserved = reserved
-
-
-class Pushkin(Book):
-    book_title = 'Лукоморье'
-    author = 'Пушкин'
-    number_of_pages = 50
-    ISBN = 101
-
-
-class Dostoevsky(Book):
-    book_title = 'Идиот'
-    author = 'Достоевский'
-    number_of_pages = 500
-    ISBN = 102
-
-
-class Griboyedov(Book):
-    book_title = 'Горе от ума'
-    author = 'Грибоедов'
-    number_of_pages = 400
-    ISBN = 103
-
-
-pushkin = Pushkin('не зарезервирована')
-dostoevsky = Dostoevsky('зарезервирована')
-griboyedov = Griboyedov('не зарезервирована')
-
-print('Название:', pushkin.book_title)
-print('Автор: ', pushkin.author)
-print('страниц: ', pushkin.number_of_pages)
-print('материал: ', pushkin.page_material)
-print()
-print('Название: ', dostoevsky.book_title)
-print('Автор: ', dostoevsky.author)
-print('страниц: ', dostoevsky.number_of_pages)
-print('материал: ', dostoevsky.page_material)
-print(dostoevsky.reserved)
-print()
-print('Название: ', griboyedov.book_title)
-print('Автор: ', griboyedov.author)
-print('страниц: ', griboyedov.number_of_pages)
-print('материал: ', griboyedov.page_material)
-print()
+    def __init__(self, book_title, author, number_of_pages, isbn):
+        self.book_title = book_title
+        self.author = author
+        self.number_of_pages = number_of_pages
+        self.isbn = isbn
 
 
 class SchoolTextbooks(Book):
     exercise = True
 
-
-class Mathematics(SchoolTextbooks):
-    book_title = 'математика'
-    lesson = 'алгебра'
-    group = '6б'
-    author = 'Зыкин'
-    number_of_pages = 50
+    def __init__(self, book_title, author, number_of_pages, isbn, lesson, group):
+        super().__init__(book_title, author, number_of_pages, isbn)
+        self.lesson = lesson
+        self.group = group
 
 
-class Story(SchoolTextbooks):
-    book_title = 'история'
-    lesson = 'история мира'
-    group = '8a'
-    author = 'Иванов'
-    number_of_pages = 507
+book1 = Book('Идиот', 'Достоевский', 200, 101)
+book1.reserved = True
+book2 = Book('Лукоморье', 'Пушкин', 150, 102)
+book3 = Book('Мцыри', 'Лермонтов', 180, 103)
+book4 = Book('Дубровский', 'Пушкин', 55, 104)
+book5 = Book('Война и мир', 'Толстой', 500, 105)
 
+print(f'Название книги: {book2.book_title}, автор: {book2.author}, количество страниц: {book3.number_of_pages},  '
+      f'материал: {book4.page_material}')
+print(f'Название книги: {book1.book_title}, автор: {book1.author}, количество страниц: {book1.number_of_pages},  '
+      f'материал: {book1.page_material}, зарезервирована: {book1.reserved}')
 
-class Geography(SchoolTextbooks):
-    book_title = 'география'
-    lesson = 'география мира'
-    group = '8б'
-    author = 'Петров'
-    number_of_pages = 550
+textbooks1 = SchoolTextbooks('Алгебра', 'Иванов', 200, 800,
+                             'Математика', '6a')
+textbooks1.reserved = True
+textbooks2 = SchoolTextbooks('История', 'Петров', 250, 801,
+                             'История Мира', '8б')
+textbooks3 = SchoolTextbooks('География', 'Смирнов', 150, 805,
+                             'География  Мира', '9б')
 
-
-mathematics = Mathematics('зарезервирована')
-
-story = Story('не зарезервирована')
-geography = Geography('не зарезервирована')
-
-print('Название: ', mathematics.book_title)
-print('Автор: ', mathematics.author)
-print('страниц: ', mathematics.number_of_pages)
-print('Предмет: ', mathematics.lesson)
-print('класс: ', mathematics.group)
-print(mathematics.reserved)
-print()
-print('Название: ', story.book_title)
-print('Автор: ', story.author)
-print('страниц: ', story.number_of_pages)
-print('Предмет: ', story.lesson)
-print('класс: ', story.group)
-print()
-print('Название: ', geography.book_title)
-print('Автор: ', geography.author)
-print('страниц: ', geography.number_of_pages)
-print('Предмет: ', geography.lesson)
-print('класс: ', geography.group)
+print(
+    f'Название: {textbooks1.book_title}, автор: {textbooks1.author}, количество страниц: {textbooks1.number_of_pages},'
+    f'предмет: {textbooks1.lesson}, класс: {textbooks1.group}, зарезервирована: {textbooks1.reserved}')
+print(
+    f'Название: {textbooks2.book_title}, автор: {textbooks2.author}, количество страниц: {textbooks2.number_of_pages},'
+    f'предмет: {textbooks2.lesson}, класс: {textbooks2.group}')
