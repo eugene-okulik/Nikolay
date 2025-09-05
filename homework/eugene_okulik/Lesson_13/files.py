@@ -25,10 +25,10 @@ for data_line in read_file():
         data_line = data_line.replace('.', '').replace(',', '')
         new_file.write(data_line)
 
-homework_path = os.path.dirname(os.path.dirname(base_path))
-alina_file_path = os.path.join(homework_path, 'AlinaKravch', 'file.txt')
-print(alina_file_path)
+# homework_path = os.path.dirname(os.path.dirname(base_path))
+# alina_file_path = os.path.join(homework_path, 'AlinaKravch', 'file.txt')
+# print(alina_file_path)
 
 
-with open(alina_file_path) as alina_file:
-    print(alina_file.read())
+# with open(alina_file_path) as alina_file:
+#     print(alina_file.read())
