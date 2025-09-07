@@ -1,24 +1,24 @@
 import datetime
 import os
 
-# Путь к папке с файлом
 path = 'C:\\Users\\Николай\\Nikolay\\homework\\eugene_okulik\\hw_13'
-
-# Полный путь к файлу
-file_path = os.path.join(path, 'data.txt')
-new_file_path = os.path.join(path, 'data.txt2')
+# path = os.path.dirname(__file__)
 
 
-# Открываем файл по полному пути
+# file_path = os.path.join(path, 'data.txt')
+# new_file_path = os.path.join(path, 'data2.txt')
+homework_path = os.path.dirname(os.path.dirname(path))
+universal_path = os.path.join(homework_path, 'eugene_okulik', 'hw_13', 'data.txt')
+
+
 def read_file():
-    with open(file_path, 'r', encoding='utf-8') as data_file:
-        # Читаем содержимое файла
+    with open(universal_path, 'r', encoding='utf-8') as data_file:
         for file in data_file.readlines():
             yield file
 
 
 for data_line in read_file():
-    with open(new_file_path, 'a') as new_file:
+    with open(universal_path, 'a') as new_file:
         if data_line.startswith('1'):
             print(data_line.replace('2023-11-27 20:34:13.212967', '2023-12-04 20:34:13.212967'))
         elif data_line.startswith('2'):
@@ -32,14 +32,18 @@ for data_line in read_file():
                                                        microsecond=312167)
             print(f'{now - new_date} назад была эта дата')
 
-# new_data1 = data.split()
-# print(new_data1)
-# new_data1[1] = '2023-12-04'
-# print(new_data1[0:3])
-# new_data2[19] = 'четверг'
-#
-#
 
-
-# Выводим содержимое файла
-# print(new_data)
+# import os
+# import datetime
+#
+# # Путь к папке с файлом
+# path = 'C:\\Users\\Николай\\Nikolay\\homework\\eugene_okulik\\hw_13'
+#
+# # Полный путь к файлу
+# file_path = os.path.join(path, 'data.txt')
+#
+# # Открываем файл по полному пути
+# with open(file_path, 'r', encoding='utf-8') as data_file:
+#     # Читаем содержимое файла
+#     data = data_file.read()
+#     print(data)
