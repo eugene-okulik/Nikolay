@@ -1,14 +1,10 @@
 import datetime
 import os
 
-path = 'C:\\Users\\Николай\\Nikolay\\homework\\eugene_okulik\\hw_13'
-# path = os.path.dirname(__file__)
-
-
-# file_path = os.path.join(path, 'data.txt')
-# new_file_path = os.path.join(path, 'data2.txt')
+path = os.path.dirname(__file__)
 homework_path = os.path.dirname(os.path.dirname(path))
 universal_path = os.path.join(homework_path, 'eugene_okulik', 'hw_13', 'data.txt')
+new_file_path = os.path.join(path, 'eugene_okulik', 'hw_13', 'data2.txt')
 
 
 def read_file():
@@ -18,7 +14,7 @@ def read_file():
 
 
 for data_line in read_file():
-    with open(universal_path, 'a') as new_file:
+    with open(new_file_path, 'a') as new_file:
         if data_line.startswith('1'):
             print(data_line.replace('2023-11-27 20:34:13.212967', '2023-12-04 20:34:13.212967'))
         elif data_line.startswith('2'):
@@ -31,7 +27,6 @@ for data_line in read_file():
             new_date = datetime.datetime.now().replace(year=2023, month=6, day=12, hour=15, minute=23, second=45,
                                                        microsecond=312167)
             print(f'{now - new_date} назад была эта дата')
-
 
 # import os
 # import datetime
