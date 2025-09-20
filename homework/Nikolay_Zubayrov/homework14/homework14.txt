@@ -1,0 +1,21 @@
+INSERT INTO students (name, second_name, group_id) VALUES ('Nikolay',  'Zubayrov',  NULL)
+INSERT INTO books (title, taken_by_student_id) VALUES ('Лукоморье', 21292)
+INSERT INTO books (title, taken_by_student_id) VALUES ('Теория', 21292)
+INSERT INTO `groups` (title, start_date, end_date) VALUES ('1218', '14.09.2025', '17.09.2025')
+INSERT INTO subjects (title) VALUES ('математика')
+INSERT INTO subjects (title) VALUES ('физика')
+INSERT INTO lessons (title, subject_id) VALUES ('контрольная', 12248)
+INSERT INTO lessons (title, subject_id) VALUES ('экзамен математика', 12248)
+INSERT INTO lessons (title, subject_id) VALUES ('контрольная физика', 12249)
+INSERT INTO lessons (title, subject_id) VALUES ('экзамен физика', 12249)
+INSERT INTO marks (value, lesson_id, student_id) VALUES (5, 12698, 21292)
+INSERT INTO marks (value, lesson_id, student_id) VALUES (4, 12699, 21292)
+INSERT INTO marks (value, lesson_id, student_id) VALUES (2, 12700, 21292)
+INSERT INTO marks (value, lesson_id, student_id) VALUES (4, 12701, 21292)
+SELECT * FROM students JOIN marks ON students.id = marks.student_id WHERE name = 'Nikolay' AND second_name = 'Zubayrov' 
+SELECT * FROM students JOIN books ON students.id = books.taken_by_student_id WHERE  name = 'Nikolay' AND second_name = 'Zubayrov'
+
+SELECT students.name, students.second_name, groups.title, books.title, lessons.title, subjects.title, marks.value 
+FROM students  JOIN `groups` ON students.group_id = `groups`.id JOIN books  ON books.taken_by_student_id = students.id 
+JOIN marks  ON marks.student_id = students.id JOIN lessons  ON lessons.id = marks.lesson_id JOIN subjects
+ON subjects.id = lessons.subject_id WHERE students.id = 21292
