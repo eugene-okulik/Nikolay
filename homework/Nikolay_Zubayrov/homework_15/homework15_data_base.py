@@ -10,7 +10,7 @@ db = mysql.connect(
 
 cursor = db.cursor(dictionary=True)
 
-cursor.execute("INSERT INTO students (name, second_name, group_id) VALUES ('Nikolay',  'Zubayrov',  NULL)")
+cursor.execute("INSERT INTO students (name, second_name, group_id) VALUES ('Nikolay', 'Zubayrov', NULL)")
 
 query = "INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)"
 values = ('Лукоморье', 21292)
@@ -45,13 +45,13 @@ values = (4, 12701, 21292)
 cursor.execute(query, values)
 
 query = '''
-SELECT * FROM students JOIN marks ON students.id = marks.student_id 
+SELECT * FROM students JOIN marks ON students.id = marks.student_id
 WHERE name = 'Nikolay' AND second_name = 'Zubayrov'
 '''
 cursor.execute(query)
 cursor.fetchall()
 
-query = ("SELECT * FROM students JOIN books ON students.id = books.taken_by_student_id WHERE  name = 'Nikolay' AND "
+query = ("SELECT * FROM students JOIN books ON students.id = books.taken_by_student_id WHERE  name = 'Nikolay' AND"
          "second_name = 'Zubayrov'")
 cursor.execute(query)
 cursor.fetchall()
@@ -62,7 +62,6 @@ FROM students  JOIN `groups` ON students.group_id = `groups`.id
 JOIN books  ON books.taken_by_student_id = students.id
 JOIN marks  ON marks.student_id = students.id JOIN lessons  ON lessons.id = marks.lesson_id JOIN subjects
 ON subjects.id = lessons.subject_id WHERE students.id = 21292
-
 '''
 cursor.execute(query)
 cursor.fetchall()
