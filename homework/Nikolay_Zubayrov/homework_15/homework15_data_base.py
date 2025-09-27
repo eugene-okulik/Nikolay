@@ -47,16 +47,16 @@ values = [
 
 for value in values:
     cursor.execute(query, value)
-    lesson_ids.append(cursor.lastrowid)  # Добавляем ID после каждой вставки
+    lesson_ids.append(cursor.lastrowid)
 
 print(f"Добавлено {len(lesson_ids)} урока с ID: {lesson_ids}")
 
 query = 'INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)'
 values = [
-    (5, lesson_ids[0], student_id),  # Для первого урока
-    (4, lesson_ids[1], student_id),  # Для второго
-    (2, lesson_ids[2], student_id),  # Для третьего
-    (4, lesson_ids[3], student_id)  # Для четвёртого
+    (5, lesson_ids[0], student_id),
+    (4, lesson_ids[1], student_id),
+    (2, lesson_ids[2], student_id),
+    (4, lesson_ids[3], student_id)
 ]
 cursor.executemany(query, values)
 print(f'Добавлено 4 оценки для студента {student_id}')
@@ -81,15 +81,15 @@ print(result2)
 
 query = '''
 SELECT students.name, students.second_name, groups.title, books.title, lessons.title, subjects.title, marks.value
-FROM students  
+FROM students
 JOIN `groups` ON students.group_id = `groups`.id
 JOIN books ON books.taken_by_student_id = students.id
-JOIN marks ON marks.student_id = students.id 
-JOIN lessons ON lessons.id = marks.lesson_id 
-JOIN subjects ON subjects.id = lessons.subject_id 
+JOIN marks ON marks.student_id = students.id
+JOIN lessons ON lessons.id = marks.lesson_id
+JOIN subjects ON subjects.id = lessons.subject_id
 WHERE students.id = %s
 '''
-cursor.execute(query, (student_id,))  # Используем динамический student_id
+cursor.execute(query, (student_id,))
 result3 = cursor.fetchall()
 print(f"Результат третьего SELECT (полный JOIN для студента {student_id}):")
 print(result3)
