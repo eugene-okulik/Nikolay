@@ -11,61 +11,87 @@ db = mysql.connect(
 cursor = db.cursor(dictionary=True)
 
 cursor.execute("INSERT INTO students (name, second_name, group_id) VALUES ('Nikolay', 'Zubayrov', NULL)")
+student_id = cursor.lastrowid
+print(f"Создан студент с ID: {student_id} (пока без группы)")
 
 query = "INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)"
-values = ('Лукоморье', 21292)
-cursor.execute(query, values)
-
-query = "INSERT INTO books (title, taken_by_student_id) VALUES (%s, %s)"
-values = ('Теория', 21292)
-cursor.execute(query, values)
+values = [('Лукоморье', student_id), ('Теория', student_id)]
+cursor.executemany(query, values)
+print(f"Добавлено 2 книги для студента {student_id}")
 
 cursor.execute("INSERT INTO `groups` (title, start_date, end_date) VALUES ('1218', '14.09.2025', '17.09.2025')")
-cursor.execute("INSERT INTO subjects (title) VALUES ('математика')")
-cursor.execute("INSERT INTO subjects (title) VALUES ('физика')")
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES ('контрольная', 12248)")
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES ('экзамен математика', 12248)")
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES ('контрольная физика', 12249)")
-cursor.execute("INSERT INTO lessons (title, subject_id) VALUES ('экзамен физика', 12249)")
+group_id = cursor.lastrowid
+print(f"Создана группа с ID: {group_id}")
 
-query = "INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)"
-values = (5, 12698, 21292)
+query = 'UPDATE students SET group_id = %s WHERE id = %s'
+values = (group_id, student_id)
 cursor.execute(query, values)
+print(f"Студент {student_id} добавлен в группу {group_id}")
 
-query = "INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)"
-values = (4, 12699, 21292)
-cursor.execute(query, values)
+cursor.execute("INSERT INTO subjects (title) VALUES (%s)", ('математика',))
+subject_math_id = cursor.lastrowid
+print(f"Добавлен предмет 'математика' с ID: {subject_math_id}")
 
-query = "INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)"
-values = (2, 12700, 21292)
-cursor.execute(query, values)
+cursor.execute("INSERT INTO subjects (title) VALUES (%s)", ('физика',))
+subject_physics_id = cursor.lastrowid
+print(f"Добавлен предмет 'физика' с ID: {subject_physics_id}")
 
-query = "INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)"
-values = (4, 12701, 21292)
-cursor.execute(query, values)
+lesson_ids = []  # Список для хранения ID уроков
+query = 'INSERT INTO lessons (title, subject_id) VALUES (%s, %s)'
+values = [
+    ('контрольная', subject_math_id),
+    ('экзамен математика', subject_math_id),
+    ('контрольная физика', subject_physics_id),
+    ('экзамен физика', subject_physics_id)
+]
+
+for value in values:
+    cursor.execute(query, value)
+    lesson_ids.append(cursor.lastrowid)  # Добавляем ID после каждой вставки
+
+print(f"Добавлено {len(lesson_ids)} урока с ID: {lesson_ids}")
+
+query = 'INSERT INTO marks (value, lesson_id, student_id) VALUES (%s, %s, %s)'
+values = [
+    (5, lesson_ids[0], student_id),  # Для первого урока
+    (4, lesson_ids[1], student_id),  # Для второго
+    (2, lesson_ids[2], student_id),  # Для третьего
+    (4, lesson_ids[3], student_id)  # Для четвёртого
+]
+cursor.executemany(query, values)
+print(f'Добавлено 4 оценки для студента {student_id}')
+db.commit()
 
 query = '''
 SELECT * FROM students JOIN marks ON students.id = marks.student_id
-WHERE name = 'Nikolay' AND second_name = 'Zubayrov'
+WHERE name = 'Nikolay' AND second_name = 'Zubayrov' ORDER BY marks.id DESC LIMIT 4
 '''
 cursor.execute(query)
-cursor.fetchall()
+result1 = cursor.fetchall()
+print("Результат первого SELECT (студент и оценки):")
+print(result1)
 
-query = ("SELECT * FROM students JOIN books ON students.id = books.taken_by_student_id WHERE  name = 'Nikolay' AND"
-         "second_name = 'Zubayrov'")
+query = ("SELECT * FROM students JOIN books ON students.id = books.taken_by_student_id WHERE  name = 'Nikolay'"
+         "AND second_name = 'Zubayrov' ORDER BY books.id DESC LIMIT 2")
+
 cursor.execute(query)
-cursor.fetchall()
+result2 = cursor.fetchall()
+print("Результат второго SELECT (студент и книги):")
+print(result2)
 
 query = '''
 SELECT students.name, students.second_name, groups.title, books.title, lessons.title, subjects.title, marks.value
-FROM students  JOIN `groups` ON students.group_id = `groups`.id
-JOIN books  ON books.taken_by_student_id = students.id
-JOIN marks  ON marks.student_id = students.id JOIN lessons  ON lessons.id = marks.lesson_id JOIN subjects
-ON subjects.id = lessons.subject_id WHERE students.id = 21292
+FROM students  
+JOIN `groups` ON students.group_id = `groups`.id
+JOIN books ON books.taken_by_student_id = students.id
+JOIN marks ON marks.student_id = students.id 
+JOIN lessons ON lessons.id = marks.lesson_id 
+JOIN subjects ON subjects.id = lessons.subject_id 
+WHERE students.id = %s
 '''
-cursor.execute(query)
-cursor.fetchall()
-
-db.commit()
+cursor.execute(query, (student_id,))  # Используем динамический student_id
+result3 = cursor.fetchall()
+print(f"Результат третьего SELECT (полный JOIN для студента {student_id}):")
+print(result3)
 
 db.close()
