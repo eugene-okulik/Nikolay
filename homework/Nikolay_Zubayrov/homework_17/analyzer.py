@@ -1,14 +1,14 @@
 import os
 import argparse
-import sys  # Добавлено для диагностики
+import sys
 from datetime import datetime
 
 
 def main():
-    print("Скрипт запущен! Аргументы:", sys.argv)  # Добавлено для диагностики
+    print("Скрипт запущен! Аргументы:", sys.argv)
 
     parser = argparse.ArgumentParser(description="Анализ логов.")
-    parser.add_argument('path', nargs='?', help='Путь к папке')  # Сделал опциональным для обработки
+    parser.add_argument('path', nargs='?', help='Путь к папке')
     parser.add_argument('--date', help='Дата YYYY-MM-DD')
     parser.add_argument('--text', help='Текст для поиска')
 
@@ -39,10 +39,12 @@ def main():
         return
 
     files = [f for f in os.listdir(args.path) if os.path.isfile(os.path.join(args.path, f))]
+    print(f"Найдено файлов: {len(files)}")
     found = False
 
     for file in files:
         file_path = os.path.join(args.path, file)
+        print(f"Читаю файл: {file}")
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 lines = f.readlines()
@@ -50,6 +52,7 @@ def main():
             print(f"Ошибка чтения файла {file}: {e}")
             continue
 
+        print(f"Строк в файле {file}: {len(lines)}")
         blocks = {}
         current_dt = None
         current_lines = []
@@ -69,16 +72,17 @@ def main():
         if current_dt:
             blocks[current_dt] = current_lines
 
-        for dt, lines in blocks.items():
+        print(f"Блоков в файле {file}: {len(blocks)}")
+
+        for dt, block_lines in blocks.items():
             if search_date and dt.date() != search_date:
                 continue
             if args.text:
-                for line_num, line in enumerate(lines, 1):
+                for line_num, line in enumerate(block_lines, 1):
                     if args.text in line:
-                        # Исправленный сниппет: правильно берёт слова вокруг текста
+                        # Исправленный сниппет
                         words = line.split()
                         text_words = args.text.split()
-                        # Найдём индекс первого слова текста
                         start_idx = None
                         for i in range(len(words) - len(text_words) + 1):
                             if words[i:i + len(text_words)] == text_words:
@@ -89,7 +93,7 @@ def main():
                             end = min(len(words), start_idx + len(text_words) + 5)
                             snippet = ' '.join(words[start:end])
                         else:
-                            snippet = line  # Если не найдено, весь line
+                            snippet = line
                         found = True
                         print(f"Файл: {file}")
                         print(f"Дата: {dt}")
@@ -99,3 +103,7 @@ def main():
 
     if not found:
         print("Ничего не найдено.")
+
+
+if __name__ == "__main__":
+    main()
