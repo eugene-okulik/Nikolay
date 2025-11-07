@@ -31,7 +31,7 @@ def independent_condition():
     print(response.text)
 
 
-def test_get_object(add_precondition, all_tests):
+def test_get_object(all_tests, add_precondition):
     # print(add_precondition)
     response = requests.get('http://objapi.course.qa-practice.com/object')
     print(response.text)
@@ -39,9 +39,9 @@ def test_get_object(add_precondition, all_tests):
 
 
 def test_get_object_id(add_precondition, independent_condition):
-    response = requests.get('http://objapi.course.qa-practice.com/object/4079')
+    response = requests.get(f'http://objapi.course.qa-practice.com/object/{independent_condition}')
     print(response.text)
-    assert response.json()["id"] == "4079"
+    assert response.json()["id"] == independent_condition
 
 
 @pytest.mark.parametrize("name, color, size", [
@@ -49,7 +49,7 @@ def test_get_object_id(add_precondition, independent_condition):
     ("oleg", "red", "large"),
     ("viktor", "green", "medium")
 ])
-def test_post_object(add_precondition, all_tests, name, color, size):
+def test_post_object(all_tests, add_precondition, name, color, size):
     headers = {"Content-Type": "application/json"}
     body = {
         "name": name,
@@ -61,9 +61,10 @@ def test_post_object(add_precondition, all_tests, name, color, size):
     print(response.text)
 
     assert response.status_code in [200, 201]
-    assert body["name"] == name
-    assert body["data"]["color"] == color
-    assert body["data"]["size"] == size
+    response_data = response.json()
+    assert response_data["name"] == name
+    assert response_data["data"]["color"] == color
+    assert response_data["data"]["size"] == size
 
 
 @pytest.mark.critical
@@ -73,9 +74,12 @@ def test_put_object(add_precondition, independent_condition):
         "name": "vova1218",
         "data": {"color": "blue", "size": "mini"}
     }
-    response = requests.put('http://objapi.course.qa-practice.com/object/4079', json=body, headers=headers)
+    response = requests.put(f'http://objapi.course.qa-practice.com/object/{independent_condition}', json=body,
+                            headers=headers)
     print(response.text)
-    assert body["name"] == "vova1218"
+    response_data = response.json()
+    assert response_data["name"] == "vova1218"
+    assert response.status_code == 200
 
 
 @pytest.mark.medium
@@ -86,10 +90,15 @@ def test_patch_object(add_precondition, independent_condition):
         "data": {"color": "blue"}
     }
 
-    response = requests.patch('http://objapi.course.qa-practice.com/object/4079', json=body, headers=headers)
+    response = requests.patch(f'http://objapi.course.qa-practice.com/object/{independent_condition}', json=body,
+                              headers=headers)
     print(response.text)
+    assert body["name"] == "kola - vova1218"
+    assert response.status_code == 200
 
-# def test_delete_object():
-#     response = requests.delete('http://objapi.course.qa-practice.com/object/1')
-#     print(response)
-#     print(response.status_code)
+
+def test_delete_object(add_precondition, independent_condition):
+    response = requests.delete(f'http://objapi.course.qa-practice.com/object/{independent_condition}')
+    print(response)
+    print(response.status_code)
+    assert response.status_code == 200
