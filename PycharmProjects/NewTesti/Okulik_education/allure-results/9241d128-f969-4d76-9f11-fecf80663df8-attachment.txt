@@ -1,0 +1,5 @@
+before test
+Создаём объект: kola, blue, mini
+{"data":{"color":"blue","size":"mini"},"id":4708,"name":"kola"}
+
+after test

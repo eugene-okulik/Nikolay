@@ -1,0 +1,5 @@
+before test
+Создаём объект: oleg, red, large
+{"data":{"color":"red","size":"large"},"id":4715,"name":"oleg"}
+
+after test

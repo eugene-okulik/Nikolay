@@ -1,0 +1,5 @@
+before test
+Создаём объект: viktor, green, medium
+{"data":{"color":"green","size":"medium"},"id":4710,"name":"viktor"}
+
+after test

@@ -1,0 +1,7 @@
+before test
+{"data":{"color":"test_color","size":"test_size"},"id":4711,"name":"test_object"}
+
+{"data":{"color":"blue"},"id":4711,"name":"kola - vova1218"}
+
+Object with id 4711 successfully deleted
+after test
