@@ -1,8 +1,34 @@
-venv
-.idea
-.DS_Store
-.pytest_cache
-.venv
-__pycache__
-credentials.py
+# Allure reports
+allure-results/
+allure-report/
+
+cat > .gitignore << EOF
+# Allure reports
+allure-results/
+allure-report/
+>
+>
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.python
+env/
+venv/
+.venv/
 .env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
