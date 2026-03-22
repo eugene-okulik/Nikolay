@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as conditions
 import pytest
 
 
-
 @pytest.fixture()
 def driver():
     chrome_driver = webdriver.Chrome()
@@ -42,4 +41,3 @@ def test_product(driver):
     actions.perform()
     new_page = driver.find_element(By.CLASS_NAME, 'product_display_name')
     assert new_page.text == '[FURN_0096] Customizable Desk (Steel, White)'
-
