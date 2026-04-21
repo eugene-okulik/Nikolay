@@ -4,7 +4,6 @@ from playwright.sync_api import Page
 def test_by_role(page: Page):
     page.goto('https://the-internet.herokuapp.com/')
     page.get_by_role('link', name='Form Authentication').click()
-    page.goto('https://the-internet.herokuapp.com/login')
     username = page.get_by_role('textbox', name='Username')
     username.click()
     username.fill('tester')
@@ -61,7 +60,7 @@ def test_form(page: Page):
     city.click()
     city.press('ArrowDown')
     city.press('ArrowDown')
-    subject.press('Enter')
+    city.press('Enter')
 
     button = page.get_by_text('Submit')
     button.click()
