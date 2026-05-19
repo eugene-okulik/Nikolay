@@ -10,4 +10,3 @@ def test_visible_word(page: Page):
     page.get_by_role('link', name='Click').click()
     word = page.locator('#result')
     expect(word).to_contain_text('Ok')
-

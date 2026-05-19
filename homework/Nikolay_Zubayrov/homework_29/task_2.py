@@ -12,4 +12,3 @@ def test_tabs_element_enabled(page: Page, context: BrowserContext):
     expect(result).to_have_text('I am a new page in a new tab')
     click_button = page.get_by_role('link', name='Click')
     expect(click_button).to_be_enabled()
-
