@@ -1,0 +1,2 @@
+Go to first line in file:g  <  ESC-< 
+Go to last line in file:G  >  ESC->
